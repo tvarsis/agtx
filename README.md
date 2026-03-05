@@ -1,12 +1,15 @@
 <div align="center">
 
-<img src="https://github.com/user-attachments/assets/f8d3f9b6-712b-49d0-a84e-2a2c9400bacc" width="680" />
+[//]: <img src="https://github.com/user-attachments/assets/54ac039b-085e-490b-aacc-36c8e244e313" width="428" />
 
-### **Terminal-native kanban board for managing spec-driven AI coding agent sessions.**
+<img width="1486" height="680" src="https://github.com/user-attachments/assets/45858e09-ab61-422b-b708-db060c73a900" />
 
-Let different coding agents collaborate on the same task. Plug in any existing spec-driven development framework or specify your own workflow as a custom plugin with per-phase skills, prompts, artifact tracking and autonomous execution.
+## Run and manage multi-agent AI coding workflows from a single terminal board
+Let different AI coding agents collaborate on the same task. **Gemini → research → Claude → implement → Codex → review.**  
+Plug in any existing spec-driven development framework or specify your own workflow as a custom plugin with per-phase skills, prompts, artifact tracking and autonomous execution.
 
-<img width="960" height="645" alt="Screenshot 2026-02-28 at 18 32 06" src="https://github.com/user-attachments/assets/442965f4-d2c4-435f-a065-df56dc483ab7" />
+
+[//]: <img width="1486" height="680" src="https://github.com/user-attachments/assets/45858e09-ab61-422b-b708-db060c73a900" />
 
 </div>
 
@@ -14,14 +17,11 @@ Let different coding agents collaborate on the same task. Plug in any existing s
 
 ## Features
 
-- **Kanban workflow**: Backlog → Planning → Running → Review → Done (with optional research and cyclic phases)
+- **Multi-project dashboard**: Manage and orchestrate coding agent sessions across all your projects
+- **Multi-agent task lifecycle**: Configure different agents per workflow phase — e.g. Gemini for planning, Claude for implementation, Codex for review — with automatic agent switching in the same tmux window
 - **Git worktree and tmux isolation**: Each task gets its own worktree and tmux window, keeping work separated
-- **Coding agent integrations**: Automatic session management for Claude Code, Codex, Gemini, OpenCode and Copilot
-- **Multi-agent per task**: Configure different agents per workflow phase — e.g. Gemini for planning, Claude for implementation, Codex for review — with automatic agent switching in the same tmux window
 - **Spec-driven development plugins**: Plug in any spec-driven development framework or select from a predefined set of plugins like GSD, Spec-kit or OpenSpec — or define custom skills, prompts and artifact tracking - with automatic execution and tracking at each phase
-- **Multi-project dashboard**: Manage tasks across all your projects
-- **PR workflow**: Generate descriptions with AI, create PRs directly from the TUI
-- **Customizable themes**: Configure colors via config file
+- **Multi-agent per task**: Configure different agents per workflow phase — e.g. Gemini for planning, Claude for implementation, Codex for review — with automatic agent switching in the same tmux window
 
 ## Installation
 
@@ -88,13 +88,6 @@ When writing a task description, you can reference files and agent skills inline
 | `#` or `@` | Fuzzy search and insert a file path |
 | `!` | Fuzzy search and insert an agent skill/command |
 
-**Skill references** (`!`) discover commands from your active agent's native command directory (e.g., `.claude/commands/` for Claude, `.codex/skills/` for Codex). The dropdown shows all available slash commands with descriptions, and inserts them in the agent's native invocation format:
-
-```
-/agtx:research the authentication module, then /agtx:plan a fix for the session timeout bug
-```
-
-This includes agtx built-in skills, plugin commands, and any custom user-defined commands.
 
 ### Agent Session Features
 
@@ -131,29 +124,25 @@ By default, all phases use `default_agent`. You can override the agent for speci
 default_agent = "claude"
 
 [agents]
-research = "claude"
+research = "gemini"
 planning = "claude"
-running = "codex"
-review = "claude"
+running = "claude"
+review = "codex"
 ```
 
 ```toml
 # .agtx/config.toml (project override — takes precedence over global)
 [agents]
-running = "gemini"
+running = "codex"
 ```
-
-When a task moves to a phase with a different agent configured, the current agent session is terminated and the new agent starts automatically in the same tmux window. The worktree, git state, and all file changes are preserved across the switch.
-
-Phases without an explicit agent override keep whatever agent is currently running — no unnecessary switching occurs.
 
 ## Spec-driven Development Plugins
 
-agtx ships with a fully declarative plugin framework — a single TOML file is all it takes to integrate any spec-driven development framework into the task lifecycle. No code changes, no custom adapters. The plugin defines commands, prompts, artifact paths, and copy-back rules — agtx handles the rest: phase gating, artifact polling, worktree sync, agent switching, and autonomous execution.
+agtx ships with a fully declarative plugin framework — a single TOML file is all it takes to integrate any spec-driven development framework into the task lifecycle. 
 
-All runtime behavior is derived from the TOML config. Commands are written once in canonical format and translated automatically for every supported agent. Phases are flexible — plugins can skip research, combine research and planning, or define cyclic multi-milestone workflows. Phase accessibility is inferred from the config: if a phase's command or prompt contains `{task}`, it can be entered directly from Backlog; otherwise it's gated behind a prior phase.
+A plugin defines commands, prompts and artifacts — agtx handles the rest: phase gating, artifact polling, worktree sync, agent switching, and autonomous execution.
 
-Press `P` to select a plugin for the current project. The active plugin is shown in the header bar.
+Press `P` to activate a plugin for the current project. The active plugin is shown in the header bar.
 
 | Plugin | Description |
 |--------|-------------|
