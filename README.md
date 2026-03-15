@@ -3,13 +3,20 @@
 [//]: <img src="https://github.com/user-attachments/assets/54ac039b-085e-490b-aacc-36c8e244e313" width="428" />
 
 # agtx
-#### An AI agent that manages other coding agents in a terminal kanban board
 
-Let different AI coding agents collaborate on the same task, e.g.  
-**Gemini → research** &nbsp; | &nbsp; **Claude → implement** &nbsp; | &nbsp; **Codex → review**
+<div align="left">
+    
+> **An AI agent that manages other coding agents in a terminal kanban board** - Add tasks. Press one key. An orchestrator agent picks it up, plans, and delegates to multiple coding agents running in parallel. Come back to changes ready to merge.
+> 
+> **Let different AI coding agents collaborate** autonomously on the same task with automatic session switching and context awareness -  
+> e.g. &nbsp; **Gemini → research** &nbsp; | &nbsp; **Claude → implement** &nbsp; | &nbsp; **Codex → review**
 
-Add tasks. Press one key. An orchestrator agent picks it up, plans, and delegates<br/>
-to multiple coding agents running in parallel. Come back to changes ready to merge.
+</div>
+
+[![CI](https://github.com/fynnfluegge/agtx/actions/workflows/ci.yml/badge.svg)](https://github.com/fynnfluegge/agtx/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/fynnfluegge/agtx)](https://github.com/fynnfluegge/agtx/releases)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 <br/>
 
@@ -30,6 +37,9 @@ to multiple coding agents running in parallel. Come back to changes ready to mer
 AI coding tools give you one agent, one task, one terminal. agtx gives you a **kanban board where multiple coding agents work in parallel** — each in its own git worktree, each in its own tmux window, each running autonomously through a spec-driven workflow managed by an orchestrator agent.
 
 With the orchestrator, you don't even manage the board yourself. **An AI agent picks up tasks, delegates work, and ensures getting things done** through planning, implementation, review and resolving conflicts — while you focus on what matters: research, defining tasks, and merging changes.
+
+> [!TIP]
+> Check out the [Contributing](#contributing) section or have a look at [`good first issues`](https://github.com/fynnfluegge/agtx/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) to get involved and become a contributor ⭐️ 
 
 ## Features
 
@@ -453,9 +463,33 @@ The orchestrator communicates with agtx through the [Model Context Protocol (MCP
 4. The TUI processes the transition request, executes all side effects (agent switching, skill deployment, prompt sending), and updates the database
 5. MCP registration is cleaned up when the orchestrator is stopped
 
+## Contributing
+
+Contributions are welcome! Whether it's a bug fix, new plugin, agent integration, or documentation improvement.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide. Here's the short version:
+
+```bash
+# Fork & clone
+git clone https://github.com/<you>/agtx && cd agtx
+
+# Build & test
+cargo build && cargo test --features test-mocks
+```
+
+### Good First Contributions
+
+Not sure where to start? Here are some ideas:
+
+- **Write a plugin** — A single `plugin.toml` is all you need. See [Creating a Plugin](#plugins) for the full reference
+- **Add a new agent** — Integrate your favorite AI coding CLI. See the [architecture docs](CLAUDE.md) for how agents are structured
+- **Improve documentation** — Found something unclear? Help others by improving it
+- **Report bugs** — Open an [issue](https://github.com/fynnfluegge/agtx/issues). Reproduction steps are always appreciated
+- **Browse open issues** — Check the [`good first issue`](https://github.com/fynnfluegge/agtx/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) label for beginner-friendly tasks
+
 ## Development
 
-See [CLAUDE.md](CLAUDE.md) for development documentation.
+See [CLAUDE.md](CLAUDE.md) for full architecture docs and development patterns.
 
 ```bash
 # Build
